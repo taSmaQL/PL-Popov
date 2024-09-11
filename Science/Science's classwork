@@ -6,6 +6,7 @@ if ready == "да" or "Да" or "Yes" or "yes" or "ДА":
     name=input("Ваше Имя и Фамилия")
     yearsold=input("Ваш возраст")
     city=input("Место жительства на данный момент")
+else: print("Okey, Bye!")
 # print(f"Общая статистика пользователя: {name,yearsold,city}")
 # print("---------------")
 print(f"Имя,Фамилия: {name}")
