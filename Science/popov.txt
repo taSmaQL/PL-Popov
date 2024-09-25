@@ -1,0 +1,165 @@
+# Решим N-ое количество уравнений с помощью ЯП Python
+import math
+# 1
+x = 14.26
+z = 0.035
+y = -1.22
+a = (2 * math.cos(x - (2 / 3)) *(1 + (z**2 / (3 - (z**2 / 5)))) / ((1 / 2) + math.sin(y)**2))
+# 2
+import math
+x = -4.5
+y = 0.75*10**(-4)
+z = -0.845*10**2
+b_0 = (x-y)
+b_1 = 9+math.pow(b_0,2)
+b_01 = math.pow(b_1, 1/3)
+b = (b_01)/(x**2+y**2+2)-math.exp(abs(x-y))*(math.tg(z)**3)
+# 3 
+import math
+x = 3.74 * 10**(-2)
+y = -0.825
+z = 0.16*10**2
+g = (1+math.(sin(x+y)**2))*(x**(abs(y)))/(abs(x-((2*y)/(1+(x**2*y**2)))))+math.cos((math.atg(1/z))**2)
+# 4
+import math
+
+x = 0.4 * 10**4
+y = -0.875
+z = -0.475 * 10**(-3)
+
+
+p_0 = abs(math.cos(x) - math.cos(y))
+p_1 = (1 + 2 * (math.sin(y)**2))
+p_2 = (1 + z + (z**2 / 2) + (z**3 / 3) + (z**4 / 4))
+
+p = p_0 ** p_1 * p_2
+# 5
+import math
+x = -15.246
+y = 4.642*10**(-2)
+z = 21
+f_0 = (x-(y/2))
+f_1 = (math.sin(math.atg(z))**2)
+f_15 = -(math.sqrt(abs(x)))
+f_2 = math.ln(y**(f_15))
+f = f_2 * f_0 + f_1
+print(f)
+# 6 
+import math
+
+x = 16.55 * 10**(-3)
+y = -2.75
+z = 0.15
+
+s_0 = x ** (1/3)
+s_05 = x ** (y + 2)
+s_1 = math.sqrt(10 * (s_0 + s_05))
+s_15 = abs(x - y)
+s_2 = (math.asin(z) ** 2)
+
+s = s_1 * (s_2 - s_15)
+# 7
+import math
+x = 0.1722
+y = 6.33
+z = 3.25*10**(-4)
+s_0 = (5*(math.atan(x)))
+s_05 = ((1/4)*(math.acos(x)))
+s_1 = (x+3*(abs(x-y))+x**2)
+s_15 = (abs(x-y)*z + x**2)
+s = s_0 - s_05*((s_1)/(s_15))
+# 8 
+import math
+x = -2.235 * 10**(-2)
+y = 2.23
+z = 15.221
+s_0 = (math.exp(abs(x-y)))
+s_05 = (abs(x-y)**(x+y))
+s_1 = (math.atan(x)) + (math.atan(z))
+xxx = ((x**6) + (math.log(y)**2)
+s_15 = math.pow(xxx, 1/3)
+s = ((s_0 * s_05)/(s_1))+s_15
+# 9 
+import math
+x = 1.825 * 10**2 
+y = 18.225
+z = -3.298*10**(-2)
+kirill_0 = abs((x**(y/x)-math.pow((y/x),1/3)))
+kirill_05 = (y-x)
+kirill_1 = (math.cos(y)-((z)/(y-x)))
+kirill_15 = (1+(y-x)**2)
+kirill_answer = kirill_0+kirill_05*(kirill_1/kirill_15)
+# 10
+import math
+x = 3.981 * 10**(-2)
+y = -1.625*10**3
+z = 0.512
+danieel_0 = 2 **(-x)
+danieel_05 = math.pow(abs(y),1/4)
+danieel_1 = math.pow(math.exp((x-1)/(math.sin(z))),1/3)
+danieel_answer = danieel_0 * math.sqrt(x + danieel_05) * danieel_1
+# 11
+import math
+x = 6.251
+y = 0.827
+z = 25.001
+python_0 = y**(math.pow((abs(x))),1/3)
+python_05 = (math.cos(y)**3)
+python_1 = abs(x-y)
+python_15 = (1 + ((math.sin(z)**2)/math.sqrt(x+y)))
+python_2 = math.exp(abs(x-y)) + (x/2)
+python_answer = python_0 + python_05 * ((python_1*python_15)/(python_2))
+# 12 
+import math
+x = 3.251
+y = 0.325
+z = 0.466 * 10**(-4)
+
+nastya_0 = 2**(y**(x))
+nastya_05 = ((3**x)**y)
+nastya_1 = y*(math.atan(z)-(1/3))
+nastya_15 = (abs(x)+((1)/(y**2+1)))
+nastya_answer = nastya_0 + nastya_05 - ((nastya_1)/(nastya_15))
+# 13
+import math
+x = 17.421
+y = 10.365*10**(-3)
+z = 0.828*10**5 
+
+ksuha_0 = math.pow(y+(math.pow(x-1,1/3),1/4))
+ksuha_05 = abs(x-y)
+ksuha_1 = (math.sin(z)**2+math.tan(z))
+ksuha_answer = ((ksuha_0)/(ksuha_05*ksuha_1))
+# 14
+import math
+x = 12.3 * 10**(-1)
+y = 15.4 
+z = 0.252*10**3
+
+shatilov_0 = y**(x+1)
+shatilov_05 = math.pow(abs(y-2),1/3) + 3
+shatilov_1 = (x+(y/2))
+shatilov_15 = 2*abs(x+y)
+shatilov_2 = (x+1)**((-1)/(math.sin(z)))
+shatilov_answer = shatilov_0/shatilov_05 + shatilov_1 / shatilov_15 * shatilov_2
+# 15
+import math
+x = 2.444
+y = 0.869 * 10**(-2)
+z = -0.13 * 10**3
+
+EGE_PO_BORBE_0 = (x**(y+1) + math.exp(y-1))
+EGE_PO_BORBE_05 = 1 + x*abs(y - math.tan(z))
+EGE_PO_BORBE_1 = (1 + abs(y - x))
+EGE_PO_BORBE_15 = (abs(y-x)**2/2)
+EGE_PO_BORBE_2 = (abs(y-x)**3/3)
+EGE_PO_BORBE_ANSWER = EGE_PO_BORBE_0/EGE_PO_BORBE_05 * EGE_PO_BORBE_1 + EGE_PO_BORBE_15 - EGE_PO_BORBE_2
+# ALL. ALL 15 QUESTION COMPLETION.
+
+
+
+
+
+
+
+
