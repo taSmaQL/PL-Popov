@@ -1,0 +1,46 @@
+# Решим одно задание из "материала к прочтению":
+
+first_number = int(input("Введите первое число: "))
+second_number = int(input("Введите второе число: "))
+third_number= int(input("Введите третье число: "))
+if 0 < first_number < 4 :
+    print('Первое число валидное. Успех')
+if 0 < second_number < 4:
+    print('Второе число валидное. Успех')
+if 0 < third_number < 4:
+    print('Третье число валидное. Успех')
+
+# Решим 3-ью практическую (лабораторную) работу.
+
+# Задача под номером 1:
+first_number = int(input("Введите первое число: "))
+second_number = int(input("Введите второе число: "))
+third_skibidi_op_op_number = int(input("Введите третье число: "))
+sum_of_number = first_number+second_number+third_skibidi_op_op_number
+print(f'Финальная сумма чисел: {sum_of_number}')
+# Задача под номером 2:
+first_number_of_katet = float(input("Введите длину первого катета в метрах: "))
+second_number_of_katet = float(input("Введите длину второго катета в метрах: "))
+if first_number_of_katet > 0 and second_number_of_katet > 0:
+    sum_number_of_katet = first_number*second_number*(1/2)
+else:
+    print("Длины катетов должны быть положительными числами. Error!")
+print(f'Площадь прямоугольного треугольника: {sum_number_of_katet}')
+# Задача под номером 3:
+numbers_of_day = int(('Введите сколько прошло минут с начала суток: '))
+if 0 < numbers_of_day < 1440:
+    how_much_hours = numbers_of_day // 60
+    how_much_minutes = numbers_of_day % 60
+else:
+    print("Введите значение от 1 до 1439 минут.")
+print(f'На данную секунду время составляет: {how_much_hours}:{how_much_minutes}')
+
+    
+
+
+
+
+
+
+
+
