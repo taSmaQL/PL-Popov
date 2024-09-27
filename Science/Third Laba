@@ -34,6 +34,13 @@ if 0 < numbers_of_day < 1440:
 else:
     print("Введите значение от 1 до 1439 минут.")
 print(f'На данную секунду время составляет: {how_much_hours}:{how_much_minutes}')
+# Задача под номером 7:
+numbers_of_visokoshiu = float(input('Введите число: '))
+if (numbers_of_visokoshiu % 4 == 0 and numbers_of_visokoshiu % 100 != 0) or (numbers_of_visokoshiu % 400 == 0):
+    print("Год является високосным. Удача!")
+else:
+    print("Год не является високосным.")
+
 
     
 
