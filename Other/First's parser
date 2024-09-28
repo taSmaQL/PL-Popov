@@ -1,0 +1,109 @@
+# 5-ая попытка. Неудачна.
+# from bs4 import BeautifulSoup
+#import requests
+#import csv
+#import time
+#import re
+#
+#HOST = 'https://vsuet.ru'
+#URL = 'https://vsuet.ru/obuchenie/faculties'
+#
+#headers = {
+#
+#    'user-agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+#}
+#
+#res = requests.get(URL, headers=headers)
+#soup = BeautifulSoup(res.text, 'lxml')
+#
+#
+#name_facult = soup.find_all('a',class_='box-service__item')
+#for x in name_facult:
+#    name_faculties = HOST + x['href']
+#    res = requests.get(name_faculties, headers=headers)
+#    soup = BeautifulSoup(res.text, 'lxml')
+#    # -
+#    try:
+#        name_facultiess = soup.find('h2',itemprop='headline').text
+#        name_dekan = soup.find('div',class_='dept-info__h-name').text
+#        # - 
+#        name_kaf_block = soup.find('div',class_='col-lg-3 pr-lg-2 pl-lg-0')
+#        name_kaf = name_kaf_block.find_all('a', text=re.compile('Кафедра'))
+#        for x in name_kaf:
+#            name_kafedras = x.text
+#            link_kafedras = HOST + x['href']
+#            
+#            res = requests.get(link_kafedras, headers=headers)
+#            soup = BeautifulSoup(res.text, 'lxml')
+#            name_kafedrass = soup.find('h2',itemprop='headline').text
+#            name_zaved_kaf = soup.find('div',class_='dept-info__h-name').text
+#
+#            link_kafedrasss = HOST + x['href'] + '/sotr'
+#            
+#            res = requests.get(link_kafedrasss, headers=headers)
+#            soup = BeautifulSoup(res.text, 'lxml')
+#            
+#            million_sotr_name = soup.find('a',class_='person-name').text
+#            million_sotr_name_job = soup.find('span',class_='field-value').text
+#            print(f"{million_sotr_name}:{million_sotr_name_job}")                
+#
+#
+#    except Exception as ex:
+#        print(ex)
+#       print('---Error---')
+#    
+#
+#
+# 6-ая попытка:
+
+from bs4 import BeautifulSoup
+import requests
+import csv
+import re
+
+HOST = 'https://vsuet.ru'
+URL = 'https://vsuet.ru/obuchenie/faculties'
+
+HEADERS = {
+     'user-agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+}
+
+res = requests.get(URL,headers=HEADERS)
+soup = BeautifulSoup(res.text,'lxml')
+
+eight_faculties_universuty = soup.find_all('a',class_='box-service__item')
+for faculties in eight_faculties_universuty:
+     faculties_text = faculties.text
+     faculties_links = HOST + faculties['href']
+     # Снизу идёт все 8 факультетов
+     res = requests.get(faculties_links,headers=HEADERS)
+     soup = BeautifulSoup(res.text,'lxml')
+    
+     try:
+          name_dekan = soup.find('div',class_='dept-info__h-name').text
+          name_faculties = soup.find('h2',itemprop='headline').text
+          
+          four_or_more_kafedra_university_block = soup.find('div','col-lg-3 pr-lg-2 pl-lg-0')
+          four_or_more_kafedra_university = four_or_more_kafedra_university_block.find_all('a',text=re.compile('Кафедра'))
+          for kafedra in four_or_more_kafedra_university:
+               kafedra_text = kafedra.text
+               kafedra_links = HOST + kafedra['href'] + '/sotr'
+
+               res = requests.get(kafedra_links,headers=HEADERS)
+               soup = BeautifulSoup(res.text,'lxml')
+               # cнизу идёт от 4 до N кол-во кафедров
+               all_numbers_of_kafedra_block = soup.find('div',class_='article')
+               all_nameteacher_of_kafedra = all_numbers_of_kafedra_block.find_all('a',class_='person-name')
+               for z in all_nameteacher_of_kafedra:
+                    z_text = z.text
+               all_jobteacher_of_kafedra = all_numbers_of_kafedra_block.find_all('span',class_='field-value')
+               for m in all_jobteacher_of_kafedra:
+                    m_text = m.text
+                    # Через костыли, обходы эникейщика и т.д. сделан полу-дохлый парсер, первые 4 попытки опубликую позже.
+                    # Данный парсер не предназначен для использования в коммерческих, личных целях, а только для практики использования парсера.
+                    # Все вопросы в тг: @badc0median
+               
+                    
+     except Exception as ex:
+        print(ex)
+     
