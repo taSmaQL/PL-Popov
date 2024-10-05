@@ -27,12 +27,10 @@ else:
     print("Длины катетов должны быть положительными числами. Error!")
 print(f'Площадь прямоугольного треугольника: {sum_number_of_katet}')
 # Задача под номером 3:
-numbers_of_day = int(('Введите сколько прошло минут с начала суток: '))
-if 0 < numbers_of_day < 1440:
+numbers_of_day = int(input('Введите сколько прошло минут с начала суток: '))
+if numbers_of_day < 1440:
     how_much_hours = numbers_of_day // 60
     how_much_minutes = numbers_of_day % 60
-else:
-    print("Введите значение от 1 до 1439 минут.")
 print(f'На данную секунду время составляет: {how_much_hours}:{how_much_minutes}')
 # Задача под номером 7:
 numbers_of_visokoshiu = float(input('Введите число: '))
@@ -40,26 +38,23 @@ if (numbers_of_visokoshiu % 4 == 0 and numbers_of_visokoshiu % 100 != 0) or (num
     print("Год является високосным. Удача!")
 else:
     print("Год не является високосным.")
-# Зачада под номером 8
-first_number = int(input('Введите первое число: '))
-second_number = int(input('Введите второе число: '))
-third_number = int(input('Введите третье число: '))
 
-if first_number == second_number == third_number:
-    print('3! 3! 3!')
-if first_number == second_number or third_number:
-    print('2! 2! 2!')
-if second_number == first_number or third_number:
-    print('2! 2! 2!')
-if third_number == first_number or second_number:
-    print('2! 2! 2!')
-if first_number != second_number or third_number:
-    print('0! 0! 0!')
-if second_number != first_number or third_number:
-   print('0! 0! 0!')
-if third_number != first_number or second_number:
-   print('0! 0! 0!')
+# Задача под номером 5
 
+def find_minimum(a, b, c):
+    minimum = a 
+    if b < minimum:
+        minimum = b 
+    if c < minimum:
+        minimum = c
+    return minimum
+
+num1 = float(input("Введите первое число: "))
+num2 = float(input("Введите второе число: "))
+num3 = float(input("Введите третье число: "))
+
+result = find_minimum(num1, num2, num3)
+print(f"Наименьшее число: {result}")
     
 
 
