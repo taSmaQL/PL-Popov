@@ -1,7 +1,6 @@
-# 7 попытка
+# 8 Попытка
 from bs4 import BeautifulSoup
 import requests
-import csv
 import time
 import re
 import json
@@ -11,11 +10,14 @@ URL = 'https://vsuet.ru/obuchenie/faculties'
 
 HEADERS = {
       'user-agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
- }
+}
 
-res = requests.get(URL,headers=HEADERS)
+def analize_website(URL,HEADERS):
+    res = requests.get(URL,headers=HEADERS)
+    soup = BeautifulSoup(res.text,'lxml')
+    return soup
 
-soup = BeautifulSoup(res.text,'lxml')
+soup = analize_website(URL,HEADERS)
 four_faculties = soup.find_all('a',class_='box-service__item')
 all_details_of_faculties = {}
 for item in four_faculties:
@@ -23,87 +25,68 @@ for item in four_faculties:
       item_hrefs = HOST + item['href']
       all_details_of_faculties[item_text] = item_hrefs
 
-      
-      # with open('all_details_of_faculties.json','w',encoding='utf-8') as file:
-      #       json.dump(all_details_of_faculties,file,indent=4,ensure_ascii=False)
+def create_json(x,xx):
+      with open(xx,'w',encoding='utf-8') as file:
+            json.dump(x,file,indent=4,ensure_ascii=False)
+      return file
 
-with open('all_details_of_faculties.json',encoding='utf-8') as file:
-      all_categories = json.load(file)
-      
-      
-      for category_name, category_href in all_categories.items():
+jsonfirst = create_json(all_details_of_faculties,'Name_name.json')
+
+with open('Name_name.json',encoding='utf-8') as file:
+      y = json.load(file)
+
+      for name_faculties,href_faculties in y.items():
             try:
-                  res = requests.get(category_href,headers=HEADERS)
-                  soup = BeautifulSoup(res.text,'lxml')
-                  name_of_faculties = soup.find('h2',itemprop='headline').text
-                  name_dekan = soup.find('div',class_='dept-info__h-name').text
-                  block_of_contacts = soup.find_all('span',class_='line-contacts')
-                  number = block_of_contacts[0].text
-                  mail = block_of_contacts[1].text
-                  address = block_of_contacts[2].text
-
-                  block_kafedra = soup.find('div',class_='col-lg-3 pr-lg-2 pl-lg-0')
-                  xxx_kafedra = block_kafedra.find_all('a',text=re.compile('Кафедра'))
-                  all_details_of_kafedra = {}             
-                  for item in xxx_kafedra:
-                        item_text = item.text
-                        item_hrefs = HOST + item['href']
+                  soup = analize_website(href_faculties,HEADERS)
+                  dekan = soup.find('div',class_='dept-info__h-name').text
+                  contancts = soup.find_all('span',class_='line-contacts')
+                  number = contancts[0].text
+                  email = contancts[1].text
+                  address = contancts[2].text
+                  block = soup.find('div',class_='col-lg-3 pr-lg-2 pl-lg-0')
+                  N_kafedra = block.find_all('a',text=re.compile('Кафедра'))
+                  all_details_of_kafedra = {}
+                  for x in N_kafedra:
+                        x_text = x.text
+                        x_hrefs = HOST + x['href']
+                        all_details_of_kafedra[x_text] = x_hrefs
+                        time.sleep(1)
                         
-                        # На этом этапе json не мог отработать +15 кафедр, без него обойдемся
-                        res = requests.get(item_hrefs,headers=HEADERS)
-                        soup = BeautifulSoup(res.text,'lxml')
-                        name_of_kafedra = soup.find('h2',itemprop='headline').text
-                        name_zam_dekan = soup.find('div',class_='dept-info__h-name').text
-                        block_of_contacts_zam = soup.find_all('span',class_='line-contacts')
-                        number_zam = block_of_contacts[0].text
-                        mail_zam = block_of_contacts[1].text
-                        address_zam = block_of_contacts[2].text
 
-                        item_hrefs_other = HOST + item['href'] + '/sotr'
-                        res = requests.get(item_hrefs_other,headers=HEADERS)
-                        soup = BeautifulSoup(res.text,'lxml')
-
-                        block_1v_of_sotr = soup.find('form',id='adminForm')
-                        name_sotr = block_1v_of_sotr.find('div',class_='col-md-10 staff__info').find_all('a',class_='person-name')
-                        for name in name_sotr:
-                              name_text = name.text
-                        xxx_zzz = block_1v_of_sotr.find('div',class_='col-md-10 staff__info').find_all('span',class_='field-value')
-                        doljhoct_of_sotr = xxx_zzz[1].text
-                    # Много костылей, нет функций и т.д., к следующий попытки "код" будет улучшен
+                  jsonsecond = create_json(all_details_of_kafedra,'Name_name_name.json')
+                  '''
+                  Прекол в том, что он за миллисекунды обрабатывал кафедры, а я забыл вместо create написать append :/
+                  '''
 
             except Exception as ex:
                   print(ex)
             
-
-
-            
+with open('Name_name_name.json',encoding='utf-8') as file:
+      z = json.load(file)
       
+      for name_kafedra,href_kafedra in z.items():
+            try:
+                  soup = analize_website(href_kafedra,HEADERS)
+                  zav_dekan = soup.find('div',class_='dept-info__h-name').text
+                  '''
+                  contancts_kafedra = soup.find_all('span',class_='line-contacts')
+                  number_kafedra = contancts_kafedra[0].text
+                  email_kafedra = contancts_kafedra[1].text
+                  address_kafedra = contancts_kafedra[2].text
+                  print(address_kafedra)
+                  На разных кафедрах разный источник информации, где-то нет адреса, почты или телефона :/
+                  => Поставлю в комментарии данные "пункты"
+                  '''
+            except Exception as ex:
+                  print(ex)
 
+      for name_kafedra,href_kafedra in z.items():
+            try:
+                  soup = analize_website(href_kafedra + '/sotr',HEADERS)
+                  block = soup.find('div',class_='article')
+                  name_sotr = block.find_all('a',class_='person-name')
+                  for teacher in name_sotr:
+                        teacher_text = teacher.text
+            except Exception as ex:
+                  print(ex)
 
-
-
-
-
-
-
-          
-          
-               
-          
-
-     
-
-
-
-    
-
-
-
-     
-
-     
-
-
-
-     
-     
