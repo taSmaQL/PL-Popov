@@ -4,7 +4,6 @@ import requests
 import time
 import re
 import json
-
 HOST = 'https://vsuet.ru'
 URL = 'https://vsuet.ru/obuchenie/faculties'
 
@@ -17,20 +16,25 @@ def analize_website(URL,HEADERS):
     soup = BeautifulSoup(res.text,'lxml')
     return soup
 
-soup = analize_website(URL,HEADERS)
-four_faculties = soup.find_all('a',class_='box-service__item')
-all_details_of_faculties = {}
-for item in four_faculties:
-      item_text = item.text
-      item_hrefs = HOST + item['href']
-      all_details_of_faculties[item_text] = item_hrefs
+# soup = analize_website(URL,HEADERS)
+# four_faculties = soup.find_all('a',class_='box-service__item')
+# all_details_of_faculties = {}
+# for item in four_faculties:
+#       item_text = item.text
+#       item_hrefs = HOST + item['href']
+#       all_details_of_faculties[item_text] = item_hrefs
 
 def create_json(x,xx):
       with open(xx,'w',encoding='utf-8') as file:
             json.dump(x,file,indent=4,ensure_ascii=False)
       return file
 
-jsonfirst = create_json(all_details_of_faculties,'Name_name.json')
+def add_json(x,xx):
+      with open(xx,'a',encoding='utf-8') as file:
+            json.dump(x,file,indent=4,ensure_ascii=False)
+      return file
+
+# jsonfirst = create_json(all_details_of_faculties,'Name_name.json')
 
 with open('Name_name.json',encoding='utf-8') as file:
       y = json.load(file)
@@ -43,21 +47,15 @@ with open('Name_name.json',encoding='utf-8') as file:
                   number = contancts[0].text
                   email = contancts[1].text
                   address = contancts[2].text
-                  block = soup.find('div',class_='col-lg-3 pr-lg-2 pl-lg-0')
-                  N_kafedra = block.find_all('a',text=re.compile('Кафедра'))
-                  all_details_of_kafedra = {}
-                  for x in N_kafedra:
-                        x_text = x.text
-                        x_hrefs = HOST + x['href']
-                        all_details_of_kafedra[x_text] = x_hrefs
-                        time.sleep(1)
-                        
-
-                  jsonsecond = create_json(all_details_of_kafedra,'Name_name_name.json')
-                  '''
-                  Прекол в том, что он за миллисекунды обрабатывал кафедры, а я забыл вместо create написать append :/
-                  '''
-
+                #   block = soup.find('div',class_='col-lg-3 pr-lg-2 pl-lg-0')
+                #   N_kafedra = block.find_all('a',text=re.compile('Кафедра'))
+                #   all_details_of_kafedra = {}
+                #   for x in N_kafedra:
+                #         x_text = x.text
+                #         x_hrefs = HOST + x['href']
+                #         all_details_of_kafedra[x_text] = x_hrefs
+                        # time.sleep(1)
+                #   jsonsecond = add_json(all_details_of_kafedra,'Name_name_name.json')
             except Exception as ex:
                   print(ex)
             
@@ -68,15 +66,6 @@ with open('Name_name_name.json',encoding='utf-8') as file:
             try:
                   soup = analize_website(href_kafedra,HEADERS)
                   zav_dekan = soup.find('div',class_='dept-info__h-name').text
-                  '''
-                  contancts_kafedra = soup.find_all('span',class_='line-contacts')
-                  number_kafedra = contancts_kafedra[0].text
-                  email_kafedra = contancts_kafedra[1].text
-                  address_kafedra = contancts_kafedra[2].text
-                  print(address_kafedra)
-                  На разных кафедрах разный источник информации, где-то нет адреса, почты или телефона :/
-                  => Поставлю в комментарии данные "пункты"
-                  '''
             except Exception as ex:
                   print(ex)
 
@@ -89,4 +78,3 @@ with open('Name_name_name.json',encoding='utf-8') as file:
                         teacher_text = teacher.text
             except Exception as ex:
                   print(ex)
-
