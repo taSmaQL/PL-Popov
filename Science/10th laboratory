@@ -4,4 +4,24 @@
 Организовать ввод данных (матриц) из файла (имя: ФИО_группа_vvod.txt) 
 и вывод результатов в файл (имя: ФИО_группа_vivod.txt).
 ###
-
+# 1:
+def is_monota(row):
+  if len(row) <= 1:
+    return True
+  incr = row[1] >= row[0]  
+  for i in range(1, len(row)):
+    if incr and row[i] < row[i - 1]:
+      return False
+    elif not incr and row[i] > row[i - 1]:
+      return False
+  return True
+def find_max(matrix):
+  max_element = float('-inf') 
+  for row in matrix:
+    if is_monota(row):  
+      current_max = max(row) 
+      max_element = max(max_element, current_max)
+  return max_element
+matrix = open('C:\\Users\\KP_y242_vvod.txt','w')
+max_element = find_max(matrix)
+print(f"Максимальный элемент в монотонных строках: {max_element}")
