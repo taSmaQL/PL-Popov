@@ -28,5 +28,6 @@ with open(r'C:\Users\user\Desktop\KP_Y242_vvod.txt', 'r') as file:
     row = list(map(int, line.split()))
     matrix.append(row)
 max_element = find_max(matrix)
-# with open('KP_Y242_vivod.txt', 'w') as file:
-#  file.write(str(max_element))
+with open('test.txt', 'w') as file:
+  file.write(str(max_element))
+max_element = find_max(matrix)
