@@ -6,9 +6,9 @@
 Необходимо получить в новый файл следующую информацию:
 "company": None,
 'created_at': '2015-08-09T17:55:43Z',
-'email: None,
-"id': 1362940,
-'name': 'Kubernetes",
-"url": "https://api.github.com/users/kubernetes'}
+'email': None,
+"id": 1362940,
+'name': 'Kubernetes',
+"url": "https://api.github.com/users/kubernetes"}
 Все прикрепить одним архивом.
 ###
