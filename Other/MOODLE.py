@@ -1,0 +1,42 @@
+###
+Код был написан не для корыстных целей, контент предназначен только для ознакомления.
+###
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+import time
+from fake_useragent import UserAgent
+useragent = UserAgent()
+option = webdriver.ChromeOptions()
+option.add_argument(f'user-agent={useragent.chrome}')
+driver = webdriver.Chrome(options = option)
+url = 'https://education.vsuet.ru/login/index.php'
+students_username = input('Введите ваш логин: ')
+students_password = input('Введите ваш пароль: ')
+object=input('Введите ссылку с тестом: ')
+try:
+    driver.get(url=url)
+    time.sleep(5)
+
+    login_input = driver.find_element(By.ID,'username')
+    login_input.clear()
+    login_input.send_keys(students_username)
+    time.sleep(3)
+    password_input = driver.find_element(By.ID,'password')
+    password_input.clear()
+    password_input.send_keys(students_password)
+    time.sleep(3)
+    password_input.send_keys(Keys.ENTER)
+    time.sleep(4)
+    driver.get(url=object)
+    time.sleep(3)
+    amgis = driver.find_element(By.XPATH,"//button[@class='btn btn-primary']").click()
+    time.sleep(2)
+    driver.switch_to.window(driver.window_handles[1]) 
+    time.sleep(5)
+except Exception as ex:
+    print(ex)
+finally: 
+    driver.close()
+    driver.quit()
