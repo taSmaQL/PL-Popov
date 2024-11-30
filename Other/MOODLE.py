@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import WebDriverException
 import time
 import requests
@@ -35,21 +36,18 @@ while attempt < max_attempts:
         print(f"Не удалось зайти на сайт. Попытка {attempt} из {max_attempts}.")
         time.sleep(8)
 else:
-    driver.close()
     driver.quit()
 try:
     login_input = driver.find_element(By.ID,'username')
     login_input.clear()
     login_input.send_keys(students_username)
-    time.sleep(1)
     password_input = driver.find_element(By.ID,'password')
     password_input.clear()
     password_input.send_keys(students_password)
-    time.sleep(2)
     password_input.send_keys(Keys.ENTER)
-    time.sleep(2)
+    time.sleep(1)
     driver.get(url=object)
-    time.sleep(3)
+    time.sleep(1)
     amgis = driver.find_element(By.XPATH,"//button[@class='btn btn-primary']").click()
     time.sleep(2)
     # Новая вкладка.
@@ -57,7 +55,9 @@ try:
     driver.maximize_window()
     time.sleep(5)
     # Копируем:
+    unique_answers = set()
     all_text = ""
+    answers = {}
     if matan in ['Да', 'ДА', 'да']:
         for i in range(1, count + 1):
             sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{i}]").click()
@@ -69,14 +69,19 @@ try:
     else:
         for i in range(1, count + 1):
             sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{i}]").click()
-            test_element = driver.find_element(By.XPATH, "//div[@class='formulation clearfix']")
-            text = test_element.text
-            text = text.replace("Текст вопроса", "").strip()
-            text = text.replace(f"Вопрос {i}", "").strip()
-            all_text += f"Вопрос {i}:{text}\n"
-            all_text += '-' * 69 + '|\n'
-            with open('output_text.txt', 'w', encoding='UTF-8') as f:
-                f.write(all_text)
+            question_element = driver.find_element(By.XPATH, "//div[@class='qtext']")
+            question_text = question_element.text
+            try:
+                answer_element = driver.find_element(By.XPATH,'//div[@class="answer"]')
+                answer_text = answer_element.text 
+            except NoSuchElementException:
+                try:
+                    answer_elements = driver.find_elements(By.XPATH, '//tr[@class="r0"]/td/p | //tr[@class="r1"]/td/p')
+                    for index, answer_element in enumerate(answer_elements):
+                        answer_text = answer_element.text
+                        answers[answer_text] = f'{index + 1}-й вариант ответа'
+                except NoSuchElementException:
+                    print('Элементы с классом answer не найдены.')
 except Exception as ex:
     print(ex)
 finally: 
