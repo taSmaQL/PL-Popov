@@ -42,7 +42,7 @@ try:
     driver.switch_to.window(driver.window_handles[1]) 
     driver.maximize_window()
     time.sleep(5)
-    sigma = driver.find_element(By.XPATH,"(//span[@class='thispageholder'])[5]").click()
+    sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{count}]").click()
     time.sleep(3)
     test_element = driver.find_element(By.XPATH, "//div[@class='formulation clearfix']")
     images = test_element.screenshot_as_png
