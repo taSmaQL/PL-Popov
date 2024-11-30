@@ -1,5 +1,7 @@
 ###
-Код был написан не для корыстных целей, контент предназначен только для ознакомления.
+                                Важно!
+Данный код был разработан исключительно с целью образовательного ознакомления. 
+    Он не предназначен для корыстного использования или коммерческих целей. 
 ###
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -15,10 +17,12 @@ option = webdriver.ChromeOptions()
 option.add_argument(f'user-agent={useragent.chrome}')
 driver = webdriver.Chrome(options = option)
 url = 'https://education.vsuet.ru/login/index.php'
-print('-----------------------------------------------------')
-print('Примечание: Выключаем ВПН, Прокси или другие аналоги!')
-print('Примечание: Нажимаем на старт теста, после этого код!')
-print('-----------------------------------------------------')
+width = 50
+print('  -----------------------------------------------------')
+print(f'| {".......... | Выключаем ВПН, Прокси или другие аналоги":<{width}} |')
+print(f'| {"ПРИМЕЧАНИЕ | Нажимаем на старт самого теста из MOODLE":<{width}} |')
+print(f'| {".......... | Затем запускаем сам код, ибо кодер - лох":<{width}} |')
+print('  -----------------------------------------------------')
 students_username=input('Введите ваш логин: ')
 students_password=input('Введите ваш пароль: ')
 object=input('Введите ссылку с тестом: ')
@@ -34,7 +38,7 @@ while attempt < max_attempts:
     except WebDriverException:
         attempt += 1
         print(f"Не удалось зайти на сайт. Попытка {attempt} из {max_attempts}.")
-        time.sleep(8)
+        time.sleep(5)
 else:
     driver.quit()
 try:
@@ -53,7 +57,7 @@ try:
     # Новая вкладка.
     driver.switch_to.window(driver.window_handles[1]) 
     driver.maximize_window()
-    time.sleep(5)
+    time.sleep(2)
     # Копируем:
     answers = {}
     if matan in ['Да', 'ДА', 'да']:
@@ -65,23 +69,30 @@ try:
             with open(filename, 'wb') as f:
                 f.write(images)
     else:
-        for i in range(1, count + 1):
-            sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{i}]").click()
-            question_element = driver.find_element(By.XPATH, "//div[@class='qtext']")
-            question_text = question_element.text
-            try:
-                answer_element = driver.find_element(By.XPATH,'//div[@class="answer"]')
-                answer_text = answer_element.text 
-            except NoSuchElementException:
+        with open('output.txt', 'w', encoding='utf-8') as file:
+            for i in range(1, count + 1):
+                sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{i}]").click()
+                question_element = driver.find_element(By.XPATH, "//div[@class='qtext']")
+                question_text = question_element.text
+                file.write(f"Вопрос {i}: {question_text}")
                 try:
-                    answer_elements = driver.find_elements(By.XPATH, '//tr[@class="r0"]/td/p | //tr[@class="r1"]/td/p')
-                    for index, answer_element in enumerate(answer_elements):
-                        answer_text = answer_element.text
-                        answers[answer_text] = f'{index + 1}-й вариант ответа'
+                    answer_element = driver.find_element(By.XPATH,'//div[@class="answer"]')
+                    answer_text = answer_element.text 
+                    file.write(f" Варианты ответов:\n{answer_text}\n")
                 except NoSuchElementException:
-                    print('Элементы с классом answer не найдены.')
-            option_elements = driver.find_elements(By.XPATH, '//option')
-            options = {option.get_attribute('value'): option.text for option in option_elements}
+                    try:
+                        answer_elements = driver.find_elements(By.XPATH, '//tr[@class="r0"]/td/p | //tr[@class="r1"]/td/p')
+                        for index, answer_element in enumerate(answer_elements):
+                            answer_text = answer_element.text
+                            file.write(f"{index + 1}-ая переменная: {answer_text}\n")
+                    except NoSuchElementException:
+                        print('Элементы с классом answer не найдены.')
+                option_elements = driver.find_elements(By.XPATH, '//option')
+                options = {option.get_attribute('value'): option.text for option in option_elements}
+                for value, text in options.items():
+                    file.write(f"{value}-ый вариант ответа: {text}\n")
+                line = '-' * 69
+                file.write(f"{line}|\n")
 except Exception as ex:
     print(ex)
 finally: 
