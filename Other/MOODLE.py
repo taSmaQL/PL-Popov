@@ -53,11 +53,12 @@ try:
     time.sleep(3)
     amgis = driver.find_element(By.XPATH,"//button[@class='btn btn-primary']").click()
     time.sleep(2)
-    # Новая вкладка
+    # Новая вкладка.
     driver.switch_to.window(driver.window_handles[1]) 
     driver.maximize_window()
     time.sleep(5)
-    # Копируем весь текст картинкой с теста
+    # Копируем:
+    unique_answers = set()
     all_text = ""
     if matan in ['Да', 'ДА', 'да']:
         for i in range(1, count + 1):
@@ -71,11 +72,13 @@ try:
         for i in range(1, count + 1):
             sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{i}]").click()
             test_element = driver.find_element(By.XPATH, "//div[@class='formulation clearfix']")
-            text= test_element.text
-            all_text += text + '\n'
-            with open ('output_text.txt','w',encoding='UTF-8') as f:
+            text = test_element.text
+            text = text.replace("Текст вопроса", "").strip()
+            text = text.replace(f"Вопрос {i}", "").strip()
+            all_text += f"Вопрос {i}:{text}\n"
+            all_text += '-' * 69 + '|\n'
+            with open('output_text.txt', 'w', encoding='utf-8') as f:
                 f.write(all_text)
-    time.sleep(2)
 except Exception as ex:
     print(ex)
 finally: 
