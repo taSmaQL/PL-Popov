@@ -55,8 +55,6 @@ try:
     driver.maximize_window()
     time.sleep(5)
     # Копируем:
-    unique_answers = set()
-    all_text = ""
     answers = {}
     if matan in ['Да', 'ДА', 'да']:
         for i in range(1, count + 1):
@@ -82,6 +80,8 @@ try:
                         answers[answer_text] = f'{index + 1}-й вариант ответа'
                 except NoSuchElementException:
                     print('Элементы с классом answer не найдены.')
+            option_elements = driver.find_elements(By.XPATH, '//option')
+            options = {option.get_attribute('value'): option.text for option in option_elements}
 except Exception as ex:
     print(ex)
 finally: 
