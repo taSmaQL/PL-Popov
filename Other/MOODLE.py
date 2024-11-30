@@ -1,5 +1,7 @@
 ###
 Код был написан не для корыстных целей, контент предназначен только для ознакомления.
+В принципе функция кода выполнена, сохранение текста картинкой с N-ого теста, и дальше можно
+подключать API, подключать разных AI ботов то-ли на своей железке, то-ли на виртуалке.
 ###
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -19,7 +21,7 @@ print('-----------------------------------------------------')
 students_username=input('Введите ваш логин: ')
 students_password=input('Введите ваш пароль: ')
 object=input('Введите ссылку с тестом: ')
-count=input('Сколько вопросов?: ')
+count=int(input('Сколько вопросов?: '))
 try:
     driver.get(url=url)
     time.sleep(5)
@@ -42,13 +44,16 @@ try:
     driver.switch_to.window(driver.window_handles[1]) 
     driver.maximize_window()
     time.sleep(5)
-    sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{count}]").click()
+    # Копируем весь текст картинкой с теста
+    for i in range(1, count + 1):
+        sigma = driver.find_element(By.XPATH,f"(//span[@class='thispageholder'])[{i}]").click()
+        test_element = driver.find_element(By.XPATH, "//div[@class='formulation clearfix']")
+        images = test_element.screenshot_as_png
+        filename = f'image_{i}.png'
+        with open(filename, 'wb') as f:
+            f.write(images)
+        time.sleep(2)
     time.sleep(3)
-    test_element = driver.find_element(By.XPATH, "//div[@class='formulation clearfix']")
-    images = test_element.screenshot_as_png
-    with open ('test.png','wb') as f:
-        f.write(images)
-    time.sleep(5)
 except Exception as ex:
     print(ex)
 finally: 
