@@ -1,7 +1,5 @@
 ###
 Код был написан не для корыстных целей, контент предназначен только для ознакомления.
-В принципе функция кода выполнена, сохранение текста картинкой с N-ого теста, и дальше можно
-подключать API, подключать разных AI ботов то-ли на своей железке, то-ли на виртуалке.
 ###
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -37,6 +35,7 @@ while attempt < max_attempts:
         print(f"Не удалось зайти на сайт. Попытка {attempt} из {max_attempts}.")
         time.sleep(8)
 else:
+    driver.close()
     driver.quit()
 try:
     login_input = driver.find_element(By.ID,'username')
@@ -58,7 +57,6 @@ try:
     driver.maximize_window()
     time.sleep(5)
     # Копируем:
-    unique_answers = set()
     all_text = ""
     if matan in ['Да', 'ДА', 'да']:
         for i in range(1, count + 1):
@@ -77,7 +75,7 @@ try:
             text = text.replace(f"Вопрос {i}", "").strip()
             all_text += f"Вопрос {i}:{text}\n"
             all_text += '-' * 69 + '|\n'
-            with open('output_text.txt', 'w', encoding='utf-8') as f:
+            with open('output_text.txt', 'w', encoding='UTF-8') as f:
                 f.write(all_text)
 except Exception as ex:
     print(ex)
