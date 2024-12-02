@@ -43,9 +43,9 @@ tk.Label(root, text="Пароль:").pack()
 password_entry = tk.Entry(root, show='*')
 password_entry.pack()
 
-tk.Label(root, text="Ссылка на тест:").pack()
-url_entry = tk.Entry(root)
-url_entry.pack()
+tk.Label(root, text="ID теста:").pack()
+id_entry = tk.Entry(root)
+id_entry.pack()
 
 tk.Label(root, text="Количество вопросов:").pack()
 count_entry = tk.Entry(root)
@@ -58,19 +58,19 @@ matan_entry.pack()
 def start_parsing():
     students_username = username_entry.get()
     students_password = password_entry.get()
-    object = url_entry.get()
+    test_id = id_entry.get()
     count = int(count_entry.get())
     matan = matan_entry.get()
     attempt = 0
-    max_attempts = 5
-
+    max_attempts = 8
+    urlstest = f'https://education.vsuet.ru/mod/quiz/view.php?id={test_id}'
     while attempt < max_attempts:
         try:
             driver.get(url=url)
             break
         except WebDriverException:
             attempt += 1
-            print(f"Не удалось зайти на сайт. Попытка {attempt} из {max_attempts}.")
+            print(f"Не удалось зайти на сайт. Попытка входа {attempt} из {max_attempts}.")
             time.sleep(5)
     else:
         driver.quit()
@@ -83,10 +83,10 @@ def start_parsing():
         password_input.send_keys(students_password)
         password_input.send_keys(Keys.ENTER)
         time.sleep(1)
-        driver.get(url=object)
+        driver.get(url=urlstest)
         time.sleep(1)
         amgis = driver.find_element(By.XPATH,"//button[@class='btn btn-primary']").click()
-        time.sleep(2)
+        time.sleep(1)
         try:
             WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'moodle-dialogue')]")))
         except Exception as ex:
