@@ -20,13 +20,16 @@ option.add_argument(f'user-agent={useragent.chrome}')
 driver = webdriver.Chrome(options = option)
 url = 'https://education.vsuet.ru/login/index.php'
 width = 50
-print('  -----------------------------------------------------')
+print('  ------------------------------------------------------')
 print(f'| {"ПРИМЕЧАНИЕ | Выключаем ВПН, Прокси или другие аналоги":<{width}} |')
-print('  -----------------------------------------------------')
+print(f'| {"ПРИМЕЧАНИЕ | При парсере матеманического анализа необ":<{width}} |')
+print(f'| {"ПРИМЕЧАНИЕ | ходимо в 100% случаях сказать 'Да' в воп":<{width}} |')
+print(f'| {"ПРИМЕЧАНИЕ | росе про картинки,др. предмет по усмотр.":<{width}} |')
+print('  ------------------------------------------------------')
 students_username=input('Введите ваш логин: ')
 students_password=input('Введите ваш пароль: ')
 object=input('Введите ссылку с тестом: ')
-count=int(input('Сколько вопросов?: '))
+count=int(input('Сколько желаете вопросов?: '))
 matan = input('Присутствует ли в вопросах картинки?: ')
 attempt = 0
 max_attempts = 5
@@ -53,18 +56,18 @@ try:
     driver.get(url=object)
     time.sleep(1)
     amgis = driver.find_element(By.XPATH,"//button[@class='btn btn-primary']").click()
-    time.sleep(4)
+    time.sleep(2)
     try:
-        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'moodle-dialogue')]")))
+        WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'moodle-dialogue')]")))
     except Exception as ex:
-        print(ex)
+        pass
     time.sleep(2)
     try:
         start_attempt_button = driver.find_element(By.XPATH, "//input[@id='id_submitbutton']")
         start_attempt_button.click()
         driver.switch_to.window(driver.window_handles[1]) 
     except Exception as ex:
-        print(ex)
+        pass
         time.sleep(2)
     driver.switch_to.window(driver.window_handles[1])
     driver.maximize_window()
