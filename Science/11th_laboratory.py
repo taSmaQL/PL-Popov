@@ -15,7 +15,6 @@
 import tkinter as tk, json
 from tkinter import messagebox
 
-# Данные о репозитории
 repository_data = {
     "company": None,
     'created_at': '2014-11-12T12:00:00Z',
@@ -45,11 +44,9 @@ root.title("Информация о репозитории")
 entry = tk.Entry(root)
 entry.pack(pady=10)
 
-
 button = tk.Button(root, text="Получить информацию", command=show_repository_info)
 button.pack(pady=10)
 
 result_label = tk.Label(root, text="", justify=tk.LEFT)
 result_label.pack(pady=10)
-
 root.mainloop()
