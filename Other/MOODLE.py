@@ -8,6 +8,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import WebDriverException
 import time
 import requests
@@ -19,9 +21,7 @@ driver = webdriver.Chrome(options = option)
 url = 'https://education.vsuet.ru/login/index.php'
 width = 50
 print('  -----------------------------------------------------')
-print(f'| {".......... | Выключаем ВПН, Прокси или другие аналоги":<{width}} |')
-print(f'| {"ПРИМЕЧАНИЕ | Нажимаем на старт самого теста из MOODLE":<{width}} |')
-print(f'| {".......... | Затем запускаем сам код, ибо кодер - лох":<{width}} |')
+print(f'| {"ПРИМЕЧАНИЕ | Выключаем ВПН, Прокси или другие аналоги":<{width}} |')
 print('  -----------------------------------------------------')
 students_username=input('Введите ваш логин: ')
 students_password=input('Введите ваш пароль: ')
@@ -53,9 +53,20 @@ try:
     driver.get(url=object)
     time.sleep(1)
     amgis = driver.find_element(By.XPATH,"//button[@class='btn btn-primary']").click()
+    time.sleep(4)
+    try:
+        WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, "//div[contains(@class, 'moodle-dialogue')]")))
+    except Exception as ex:
+        print(ex)
     time.sleep(2)
-    # Новая вкладка.
-    driver.switch_to.window(driver.window_handles[1]) 
+    try:
+        start_attempt_button = driver.find_element(By.XPATH, "//input[@id='id_submitbutton']")
+        start_attempt_button.click()
+        driver.switch_to.window(driver.window_handles[1]) 
+    except Exception as ex:
+        print(ex)
+        time.sleep(2)
+    driver.switch_to.window(driver.window_handles[1])
     driver.maximize_window()
     time.sleep(2)
     # Копируем:
