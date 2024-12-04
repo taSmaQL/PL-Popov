@@ -1,0 +1,50 @@
+'''
+Эта что?: Форум одного сервера в Garry's Mod, код узнает никнейм на последней странице
+Планируется прикрепиться к ТГ-Боту, чтобы узнавать в реал-тайме, когда написали что-либо на форуме, пока что возможно получить никнеймы на 1-ой странице.
+'''
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import WebDriverException
+import time
+from fake_useragent import UserAgent
+useragent = UserAgent()
+option = webdriver.ChromeOptions()
+option.add_argument(f'user-agent={useragent.chrome}')
+driver = webdriver.Chrome(options = option)
+url = 'https://nxserv.gg/forum/category/all'
+attempt = 0
+max_attempts = 8
+while attempt < max_attempts:
+        try:
+            driver.get(url=url)
+            time.sleep(4)
+            break
+        except WebDriverException:
+            attempt += 1
+            print(f"Не удалось зайти на сайт. Попытка входа {attempt} из {max_attempts}.")
+            time.sleep(5)
+else:
+        driver.quit()
+try:
+    span_elements = driver.find_elements(By.XPATH, "//div[@style='gap:8px;display:flex']//label[@class='checkbox']/span")
+    span_elements[1].click()
+    time.sleep(1)
+    span_elements[0].click()
+    time.sleep(10)
+except Exception as ex:
+    print(ex)
+try:
+    element_exists = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//a[@class="forum-thread-body forum-thread-body-right"]')))
+    if element_exists:
+        span_elements = driver.find_elements(By.XPATH, "//span[contains(@style, 'word-break: break-all')]")
+        if span_elements:
+            for span in span_elements:
+                extracted_text = span.text
+                print(f"Никнейм: {extracted_text}")
+except Exception as ex:
+        print(ex)
+finally: 
+    driver.close()
+    driver.quit()
