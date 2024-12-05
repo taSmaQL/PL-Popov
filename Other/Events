@@ -1,0 +1,36 @@
+'''
+Собираем посты с ТГ в группу, скачиваем все посты и загружаем в file_path и видим, когда мероприятие начинается. В будущем будет сделано так, чтобы можно было видно
+когда и где, и может к ТГ_боту будет подкреплена
+'''
+from bs4 import BeautifulSoup
+import re
+from datetime import datetime
+
+file_path = 'C:/Users/user/Downloads/Telegram Desktop/ChatExport_2024-12-05/messages.html'
+with open(file_path, 'r', encoding='utf-8') as file:
+    html_content = file.read()
+
+soup = BeautifulSoup(html_content, 'html.parser')
+
+forwarded_div = soup.find('div', class_='history')
+
+if forwarded_div:
+    message_divs = forwarded_div.find_all('div', class_='message default clearfix')
+    
+    messages_in_december = []
+
+
+    for message_div in message_divs:
+        message_text = message_div.get_text(strip=True)
+        
+        date_match = re.search(r'(\d{1,2})\s+(декабря)', message_text)
+        
+        if date_match:
+            day = int(date_match.group(1))
+            month_name = date_match.group(2)
+        
+            date_obj = datetime(year=2024, month=12, day=day)
+            messages_in_december.append((date_obj, day, month_name))
+    sorted_messages = sorted(messages_in_december, key=lambda x: x[0])
+    for date_obj, day, month in sorted_messages:
+        print(f"{day} {month}")
