@@ -2,6 +2,7 @@
 Эта что?: Форум одного сервера в Garry's Mod, код узнает никнейм на последней странице
 Планируется прикрепиться к ТГ-Боту, чтобы узнавать в реал-тайме, когда написали что-либо на форуме, пока что возможно получить никнеймы на 1-ой странице.
 '''
+--Заброшено
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
