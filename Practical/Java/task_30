@@ -4,3 +4,47 @@
 //этого числа на любой из множителей 2^6 -> `(q^w + e^(w+1) + r^(w+1)
 //+...= sum = a * s)`. Пр. `sC(89, 1) => 8^1+9^2=89*1`,`sC(695, 2) =>
 //6^2+9^3+5^4=1390=695*2`.
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Введите число для начала ряда (start): ");
+        int start = scanner.nextInt();
+        // Это РЯД!!!
+        System.out.print("Введите положительное число (number): ");
+        int number = scanner.nextInt();
+        // Это положительное число для ряда!!!
+        if (isPossible(number, start)) {
+            System.out.println("Возможна такая ситуация.");
+        } else {
+            System.out.println("Невозможна такая ситуация.");
+        }
+
+        scanner.close();
+    }
+
+    public static boolean isPossible(int number, int start) {
+        String numberStr = String.valueOf(number);
+        int n = numberStr.length();
+        int[] digits = new int[n];
+        for (int i = 0; i < n; i++) {
+            digits[i] = Character.getNumericValue(numberStr.charAt(i));
+        }
+
+        for (int powerOfTwo = 1; powerOfTwo <= 64; powerOfTwo *= 2) {
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum += Math.pow(digits[i], start + i);
+            }
+
+            if (sum == number * powerOfTwo) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
