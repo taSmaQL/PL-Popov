@@ -6,6 +6,8 @@
 //6^2+9^3+5^4=1390=695*2`.
 import java.util.Scanner;
 
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -25,26 +27,19 @@ public class Main {
 
         scanner.close();
     }
-
+    
     public static boolean isPossible(int number, int start) {
         String numberStr = String.valueOf(number);
-        int n = numberStr.length();
-        int[] digits = new int[n];
-        for (int i = 0; i < n; i++) {
-            digits[i] = Character.getNumericValue(numberStr.charAt(i));
-        }
-
-        for (int powerOfTwo = 1; powerOfTwo <= 64; powerOfTwo *= 2) {
+        for (int powerOfTwo = 1; powerOfTwo <= 16; powerOfTwo *= 2) {
             int sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += Math.pow(digits[i], start + i);
+            for (int i = 0; i < numberStr.length(); i++) {
+                int digit = Character.getNumericValue(numberStr.charAt(i));
+                sum += Math.pow(digit, start + i);
             }
-
             if (sum == number * powerOfTwo) {
                 return true;
             }
         }
-
         return false;
     }
 }
